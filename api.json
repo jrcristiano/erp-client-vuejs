@@ -1,0 +1,18 @@
+{
+  "products": [
+    {
+      "name": "Notebook",
+      "price": "1999.99",
+      "description": "",
+      "category": "ELETRÔNICOS",
+      "id": 1
+    },
+    {
+      "name": "Patinete elétrico",
+      "price": "999.99",
+      "description": "",
+      "category": "ELETRÔNICOS",
+      "id": 2
+    }
+  ]
+}
