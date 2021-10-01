@@ -5,17 +5,17 @@ export default {
     {
       path: '',
       name: 'product-list',
-      component: () => import('../components/registers/products/ProductList.vue')
+      component: () => import('../components/ProductList.vue')
     },
     {
       path: 'novo',
       name: 'product-create',
-      component: () => import('../components/registers/products/ProductCreate.vue')
+      component: () => import('../components/ProductCreate.vue')
     },
     {
       path: ':id',
       name: 'product-view',
-      component: () => import('../components/registers/products/ProductView.vue')
+      component: () => import('../components/ProductView.vue')
     }
   ]
 }

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import Home from './views/Home.vue'
 
-import ProductRoutes from './routes/product.js'
+import ProductRoutes from './modules/products/routes/product.js'
 
 Vue.use(Router)
 

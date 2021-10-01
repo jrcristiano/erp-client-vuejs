@@ -107,7 +107,7 @@
 <script>
 
 import { required, minLength, maxLength, between } from 'vuelidate/lib/validators'
-import products from '@/app/services/products'
+import productService from '@/modules/products/services/products.js'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
@@ -149,7 +149,7 @@ export default {
       const formValid = !this.$v.$invalid
 
       if (formValid) {
-        await products.save(data)
+        await productService.save(data)
         this.showFlash('Produto salvo com sucesso.')
         return this.$router.push({name: 'product-list'})
       }

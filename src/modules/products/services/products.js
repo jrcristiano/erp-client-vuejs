@@ -1,4 +1,4 @@
-import { http } from '../config/http'
+import { http } from '../../core/config/http'
 
 export default {
   all() {

@@ -60,7 +60,7 @@
 
 <script>
 // @ is an alias to /src
-import productService from '@/app/services/products'
+import productService from '@/modules/products/services/products.js'
 import moment from 'moment'
 import { mapMutations } from 'vuex'
 
