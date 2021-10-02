@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from './views/Home.vue'
-
-import ProductRoutes from './modules/products/routes/product.js'
+import CoreRoutes from './modules/core/core-router.js'
+import HomeRoutes from './modules/home/home-router.js'
+import ProductRoutes from './modules/products/product-router.js'
 
 Vue.use(Router)
 
@@ -12,11 +12,8 @@ export default new Router({
   base: process.env.BASE_URL,
   linkActiveClass: 'nav-link-active',
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
+    CoreRoutes,
+    HomeRoutes,
     ProductRoutes
   ]
 })

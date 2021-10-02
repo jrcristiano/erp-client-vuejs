@@ -7,9 +7,9 @@
         <button @click="$router.back()" class="btn btn-primary font-weight-bold">
             <i class="fas fa-undo"></i> Voltar
         </button>
-        <button class="btn btn-warning font-weight-bold ml-2">
+        <router-link :to="{name: 'product-edit'}" class="btn btn-warning font-weight-bold ml-2">
           <i class="fas fa-edit"></i> Editar produto
-        </button>
+        </router-link>
         <button @click="destroy(product.id)" class="btn btn-danger font-weight-bold ml-2">
           <i class="fas fa-trash"></i> Remover produto
         </button>
@@ -60,7 +60,7 @@
 
 <script>
 // @ is an alias to /src
-import productService from '@/modules/products/services/products.js'
+import { findById, destroy } from '@/modules/products/services/products.js'
 import moment from 'moment'
 import { mapMutations } from 'vuex'
 
@@ -76,13 +76,18 @@ export default {
   },
   methods: {
     async getProduct() {
-      const id = this.$route.params.id
-      let res = await productService.findById(id)
-      this.product = res.data
+      try {
+        const id = this.$route.params.id
+        let res = await findById(id)
+
+        this.product = res.data
+      } catch (e) {
+        this.$router.push({name: 'not-found'})
+      }
     },
     async destroy(id) {
       if (confirm('Deseja mesmo remover este dado?')) {
-        await productService.destroy(id)
+        await destroy(id)
         this.showFlash('O produto foi removido com sucesso.')
         return this.$router.back()
       }

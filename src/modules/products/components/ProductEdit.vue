@@ -1,7 +1,7 @@
 <template>
-  <div class="product-create">
+  <div class="product-edit">
     <div class="w-100 d-flex justify-content-between px-3 pt-3 ">
-      <h1>Novo produto</h1>
+      <h1>Editar produto</h1>
 
       <div class="actions">
         <button @click="$router.back()" class="btn btn-primary my-2 font-weight-bold">
@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <form @submit.prevent="save" class="py-4 px-3" method="post">
+    <form @submit.prevent="edit" class="py-4 px-3" method="post">
       <div class="form-group mb-4">
           <div class="row">
               <div class="col-6">
@@ -94,35 +94,34 @@
           cols="30"></textarea>
       </div>
 
-    <button @click="$v.$touch()"
-      :disabled="$v.$invalid"
-      type="submit" 
-      class="btn btn-success">
-        <i class="fas fa-check"></i> Salvar
-    </button>
-  </form>
+      <button @click="$v.$touch()"
+        :disabled="$v.$invalid"
+        type="submit" 
+        class="btn btn-success">
+          <i class="fas fa-check"></i> Salvar
+      </button>
+    </form>
   </div>
 </template>
 
 <script>
 
 import { required, minLength, maxLength, between } from 'vuelidate/lib/validators'
-import { save } from '@/modules/products/services/products.js'
+import { save, findById } from '@/modules/products/services/products.js'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'product-create',
+  created() {
+    this.getProduct()
+  },
   data() {
     return {
-      form: {
-        name: '',
-        price: '',
-        description: '',
-        category: ''
-      }
+      form: undefined
     } 
   },
   validations: {
+
     form: {
       name: { 
         required, 
@@ -142,12 +141,18 @@ export default {
   },
   methods: {
     ...mapMutations(['showFlash']),
-    async save() {
+    async getProduct() {
+      const id = this.$route.params.id
+      const res = await findById(id)
+
+      this.form = res.data
+    },
+    async edit() {
       const formValid = !this.$v.$invalid
       if (formValid) {
         try {
           const data = Object.assign({}, this.$v.form.$model)
-          await save(data)
+          await save(data, this.$route.params.id)
 
         } catch (e) {
           this.showFlash('Produto salvo com sucesso.')
@@ -166,5 +171,3 @@ export default {
   }
 }
 </script>
-
-

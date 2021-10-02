@@ -19,7 +19,7 @@
 </style>
 
 <script>
-import Navbar from '@/modules/core/shared/Navbar.vue'
+import Navbar from '@/modules/core/components/shared/Navbar.vue'
 
 export default {
   name: 'App',

@@ -13,6 +13,20 @@
       "description": "",
       "category": "ELETRÔNICOS",
       "id": 2
+    },
+    {
+      "name": "Mochila",
+      "price": "499.99",
+      "description": "",
+      "category": "OUTROS",
+      "id": 3
+    },
+    {
+      "name": "Patinete elétrico",
+      "price": "1999.99",
+      "description": "",
+      "category": "OUTROS",
+      "id": 5
     }
   ]
 }

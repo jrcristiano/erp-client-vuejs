@@ -66,7 +66,7 @@
 
 <script>
 // @ is an alias to /src
-import productService from '@/modules/products/services/products.js'
+import { all, destroy } from '@/modules/products/services/products.js'
 import moment from 'moment';
 import { mapState, mapMutations } from 'vuex'
 
@@ -86,7 +86,7 @@ export default {
   methods: {
     ...mapMutations(['hideFlash']),
     async getProducts() {
-      let res = await productService.all()
+      let res = await all()
       this.products = res.data
     },
     async destroy(id) {
@@ -96,7 +96,7 @@ export default {
         })
 
         this.showFlash('O produto foi removido com sucesso.')
-        await productService.destroy(id)
+        await destroy(id)
       }
     },
     ...mapMutations(['showFlash'])
