@@ -90,6 +90,7 @@ export default {
       nav: {
         registers: [
           {icon: 'fas fa-shopping-cart', class: 'border-top-cyan', route: 'product-list', title: 'Produtos'},
+          {icon: 'fas fa-layer-group', class: 'border-top-cyan', route: 'category-list', title: 'Categorias'},
           {icon: 'fas fa-user-tie', class: 'border-bottom-cyan border-top-cyan', route: 'clients', title: 'Clientes'},
           {icon: 'fas fa-gift', class: 'border-bottom-cyan', route: 'providers', title: 'Fornecedores'},
           {icon: 'fas fa-users-cog', class: 'border-bottom-cyan', route: 'managers', title: 'Gerentes'},

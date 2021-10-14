@@ -64,21 +64,21 @@
       </div>
 
       <div class="form-group mb-3">
-          <label class="font-weight-bold" for="category">
+          <label class="font-weight-bold" for="category_id">
             Categoria <span class="text-danger font-weight-bold">*</span>
           </label>
-          <select v-model="$v.form.category.$model" 
+          <select @change="onChangeCategory"
             class="form-control" 
-            name="category" 
-            id="category"
-            :class="{ 'is-invalid': $v.form.category.$error }">
-            <option value="">SELECIONAR CATEGORIA DO PRODUTO</option>
-            <option value="ELETRÔNICOS">ELETRÔNICOS</option>
-            <option value="ELETRODOMÉSTICOS">ELETRODOMÉSTICOS</option>
-            <option value="OUTROS">OUTROS</option>
+            name="category_id" 
+            id="category_id"
+            :class="{ 'is-invalid': $v.form.category_id.$error }">
+              <option value="">SELECIONAR CATEGORIA DO PRODUTO</option>
+              <option :selected="$v.form.category_id.$model == 1" value="ELETRÔNICOS">ELETRÔNICOS</option>
+              <option :selected="$v.form.category_id.$model == 2" value="ELETRODOMÉSTICOS">ELETRODOMÉSTICOS</option>
+              <option :selected="$v.form.category_id.$model == 3" value="OUTROS">OUTROS</option>
           </select>
 
-          <div v-if="$v.form.category.$error" id="validationServer03Feedback" class="invalid-feedback">
+          <div v-if="$v.form.category_id.$error" id="validationServer03Feedback" class="invalid-feedback">
             O campo categoria é obrigatório.
           </div>
       </div>
@@ -87,7 +87,7 @@
         <label class="font-weight-bold" for="description">
           Descrição
         </label>
-        <textarea v-model="$v.form.description.$model" 
+        <textarea v-model="$v.form.description.$model"
           class="form-control" 
           name="description" 
           id="description" 
@@ -117,11 +117,10 @@ export default {
   },
   data() {
     return {
-      form: undefined
+      form: {}
     } 
   },
   validations: {
-
     form: {
       name: { 
         required, 
@@ -132,7 +131,7 @@ export default {
         required, 
         between: between(0.1, 9999999)
       },
-      category: { required },
+      category_id: { required },
       description: {}
     }
   },
@@ -145,7 +144,7 @@ export default {
       const id = this.$route.params.id
       const res = await findById(id)
 
-      this.form = res.data
+      this.form = {...res.data.data}
     },
     async edit() {
       const formValid = !this.$v.$invalid
@@ -155,13 +154,16 @@ export default {
           await save(data, this.$route.params.id)
 
         } catch (e) {
-          this.showFlash('Produto salvo com sucesso.')
+          this.showFlash('Erro ao editar produto.')
           return this.$router.push({name: 'product-list'})
         }
 
-        this.showFlash('Produto salvo com sucesso.')
+        this.showFlash('Produto editado com sucesso.')
         return this.$router.push({name: 'product-list'})
       }
+    },
+    onChangeCategory(e) {
+      this.form.category_id = e.target.value
     }
   },
   filters: {

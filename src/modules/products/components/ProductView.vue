@@ -36,7 +36,7 @@
             {{ product.description }}
           </div>
           <div v-else class="w-100 border rounded p-2 text-uppercase">
-            <router-link to="/">Adicionar uma descrição a este produto</router-link>
+            <router-link :to="{ name: 'product-edit' }">Adicionar uma descrição a este produto</router-link>
           </div>
         </div>
 
@@ -80,7 +80,7 @@ export default {
         const id = this.$route.params.id
         let res = await findById(id)
 
-        this.product = res.data
+        this.product = {...res.data.data}
       } catch (e) {
         this.$router.push({name: 'not-found'})
       }

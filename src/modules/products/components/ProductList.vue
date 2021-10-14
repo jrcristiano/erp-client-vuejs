@@ -3,25 +3,29 @@
     <div class="w-100 d-flex justify-content-between px-3 pt-3 ">
       <h1>Produtos</h1>
 
-      <div>
-        <button class="btn btn-danger mr-1">
-          <i class="fas fa-sort-amount-down"></i> Estoque baixo
-        </button>
-        
+      <div>  
         <router-link :to="{name: 'product-create'}" class="btn btn-primary my-2 font-weight-bold">
           <i class="fas fa-plus"></i> Novo pedido
         </router-link>
       </div>
     </div>
 
-    <div class="w-100 p-3">
-      <div class="alert alert-success alert-dismissible fade show" 
-        v-if="flash.show"
-        role="alert">
-          <i class="fas fa-check"></i> {{ flash.message }}
-        <button @click="hideFlash" type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="w-100 px-3 pt-1">
+      <Message class="pt-3" />
+    </div>
+
+    <div class="w-100 px-3 pt-3 pb-3">
+      <div class="w-25">
+        <select name="categoria" 
+          id="category" 
+          class="form-control"
+          @change="filteredProducts"
+          v-model="selectedCategory">
+            <option value="">SELECIONAR CATEGORIA</option>
+            <option value="1">ELETRÔNICOS</option>
+            <option value="2">ELETRODOMÉSTICOS</option>
+            <option value="3">OUTROS</option>
+        </select>
       </div>
     </div>
 
@@ -41,7 +45,7 @@
             <th scope="row">{{ product.id }}</th>
             <td>{{ product.name | uppercase }}</td>
             <td>R$ {{ product.price | money }}</td>
-            <td>{{ product.category | uppercase }}</td>
+            <td>{{ product.category_id }}</td>
             <td>{{ product.created_at | format }}</td>
             <td>
               <router-link :to="{ name: 'product-view', params: { id: product.id } }" class="btn-sm mr-1 btn btn-primary">
@@ -66,28 +70,30 @@
 
 <script>
 // @ is an alias to /src
-import { all, destroy } from '@/modules/products/services/products.js'
-import moment from 'moment';
-import { mapState, mapMutations } from 'vuex'
+import { fetchAll, destroy } from '@/modules/products/services/products.js'
+import moment from 'moment'
+import Message from '@/modules/core/components/shared/errors/Message'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'product-list',
   created () {
-    this.getProducts()
+    this.getProductList()
   },
   components: {
-
+    Message
   },
   data() {
     return {
-      products: []
+      products: [],
+      selectedCategory: ''
     }
   },
   methods: {
-    ...mapMutations(['hideFlash']),
-    async getProducts() {
-      let res = await all()
-      this.products = res.data
+    ...mapMutations(['showFlash']),
+    async getProductList() {
+      let res = await fetchAll()
+      this.products = [...res.data.data]
     },
     async destroy(id) {
       if (confirm('Deseja mesmo remover este dado?')) {
@@ -99,10 +105,9 @@ export default {
         await destroy(id)
       }
     },
-    ...mapMutations(['showFlash'])
-  },
-  computed: {
-    ...mapState(['flash'])
+    filteredProducts() {
+      console.log('changed!')
+    }
   },
   filters: {
     money(value) {
@@ -110,7 +115,7 @@ export default {
       return money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
     format(value) {
-      return moment(value).format('Y/MM/DD')
+      return moment(value).format('DD/MM/Y')
     },
     uppercase(value) {
       return value.toUpperCase();

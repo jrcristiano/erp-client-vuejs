@@ -1,12 +1,12 @@
-import { http } from '../../core/config/http'
+import { http } from '@/modules/core/config/http.js'
 
-export function all() {
+export function fetchAll() {
   return http.get('/products')
 }
 
 export function save(data, id = null) {
   if (!id) {
-    return http.post('/products', data)
+    return http.post('/products', JSON.stringify(data))
   }
 
   return http.put(`/products/${id}`, data)

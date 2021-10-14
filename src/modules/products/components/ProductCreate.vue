@@ -44,11 +44,11 @@
                     Preço <span class="text-danger font-weight-bold">*</span>
                 </label>
                 <input v-model.lazy="$v.form.price.$model"
+                  v-money="money"
                   class="form-control" 
                   id="price" 
                   placeholder="Preço" 
-                  type="number"
-                  step="0.01"
+                  type="text"
                   :class="{ 'is-invalid': $v.form.price.$error }"
                   @change="$v.form.price.$touch()" />
 
@@ -64,21 +64,21 @@
       </div>
 
       <div class="form-group mb-3">
-          <label class="font-weight-bold" for="category">
+          <label class="font-weight-bold" for="category_id">
             Categoria <span class="text-danger font-weight-bold">*</span>
           </label>
-          <select v-model="$v.form.category.$model" 
+          <select v-model="$v.form.category_id.$model" 
             class="form-control" 
-            name="category" 
-            id="category"
-            :class="{ 'is-invalid': $v.form.category.$error }">
+            name="category_id" 
+            id="category_id"
+            :class="{ 'is-invalid': $v.form.category_id.$error }">
             <option value="">SELECIONAR CATEGORIA DO PRODUTO</option>
-            <option value="ELETRÔNICOS">ELETRÔNICOS</option>
-            <option value="ELETRODOMÉSTICOS">ELETRODOMÉSTICOS</option>
-            <option value="OUTROS">OUTROS</option>
+            <option value="1">ELETRÔNICOS</option>
+            <option value="2">ELETRODOMÉSTICOS</option>
+            <option value="3">OUTROS</option>
           </select>
 
-          <div v-if="$v.form.category.$error" id="validationServer03Feedback" class="invalid-feedback">
+          <div v-if="$v.form.category_id.$error" id="validationServer03Feedback" class="invalid-feedback">
             O campo categoria é obrigatório.
           </div>
       </div>
@@ -109,16 +109,25 @@
 import { required, minLength, maxLength, between } from 'vuelidate/lib/validators'
 import { save } from '@/modules/products/services/products.js'
 import { mapState, mapMutations } from 'vuex'
+import Money from 'v-money'
 
 export default {
   name: 'product-create',
+  components: {
+    Money
+  },
   data() {
     return {
+      money: {
+        decimal: '.',
+        precision: 2,
+        masked: false
+      },
       form: {
         name: '',
         price: '',
         description: '',
-        category: ''
+        category_id: ''
       }
     } 
   },
@@ -131,9 +140,9 @@ export default {
       },
       price: {
         required, 
-        between: between(0.1, 9999999)
+        between: between(0.01, 9999999)
       },
-      category: { required },
+      category_id: { required },
       description: {}
     }
   },
@@ -150,7 +159,8 @@ export default {
           await save(data)
 
         } catch (e) {
-          this.showFlash('Produto salvo com sucesso.')
+          console.log(e)
+          this.showFlash('Erro ao salvar produto.')
           return this.$router.push({name: 'product-list'})
         }
 

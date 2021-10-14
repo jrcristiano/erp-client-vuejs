@@ -1,6 +1,6 @@
 export default {
   path: '/produtos',
-  component: () => import('@/modules/products/views/registers/Product'),
+  component: () => import('@/modules/products/views/Product'),
   children: [
     {
       path: '',
