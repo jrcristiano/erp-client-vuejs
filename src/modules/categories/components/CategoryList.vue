@@ -8,7 +8,8 @@
     </div>
 
     <div class="w-100 px-3 pt-1 py-4">
-      <Message class="pt-3" />
+      <Success class="pt-3" />
+      <Error class="pt-3" />
     </div>
 
     <table class="table table-striped table-hover table-sm">
@@ -23,13 +24,13 @@
         <tbody v-if="categories.length">
           <tr v-for="(category, i) in categories" :key="i">
             <th scope="col">{{ category.id }}</th>
-            <td>{{ category.name }}</td>
+            <td class="text-uppercase">{{ category.name }}</td>
             <td>{{ category.created_at | format }}</td>
             <td>
-              <router-link :to="{ name: 'category-view', params: { id: category.id } }" class="btn btn-primary btn-sm">
-                <i class="fas fa-eye"></i>
+              <router-link :to="{ name: 'category-edit', params: { id: category.id } }" class="btn btn-primary btn-sm">
+                <i class="fas fa-edit"></i>
               </router-link>
-              <button class="btn btn-danger btn-sm ml-1">
+              <button v-if="category.products.length == 0" @click="destroy(category.id)" class="btn btn-danger btn-sm ml-1">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
@@ -41,9 +42,11 @@
 </template>
 
 <script>
-import Message from '@/modules/core/components/shared/errors/Message'
-import { fetchAll } from '@/modules/categories/services/category.js'
+import Success from '@/modules/core/components/shared/errors/Success'
+import Error from '@/modules/core/components/shared/errors/Error'
+import { fetchAll, destroy } from '@/modules/categories/services/category.js'
 import moment from 'moment'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'categoryList',
@@ -51,7 +54,8 @@ export default {
     this.getCategoryList()
   },
   components: {
-    Message
+    Success,
+    Error
   },
   data() {
     return {
@@ -59,9 +63,17 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['showFlash']),
     async getCategoryList() {
       let res = await fetchAll()
       this.categories = [...res.data.data]
+    },
+    async destroy(id) {
+      if (confirm('Deseja mesmo remover este dado?')) {
+        this.categories = this.categories.filter(category => category.id != id)
+        await destroy(id)
+        this.showFlash('A categoria foi removida com sucesso.')
+      }
     }
   },
   filters: {

@@ -13,9 +13,9 @@ export default {
       component: () => import('@/modules/categories/components/CategoryCreate')
     },
     {
-      path: ':id',
-      name: 'category-view',
-      component: () => import('@/modules/categories/components/CategoryView')
+      path: 'editar/:id',
+      name: 'category-edit',
+      component: () => import('@/modules/categories/components/CategoryEdit')
     }
   ]
 }

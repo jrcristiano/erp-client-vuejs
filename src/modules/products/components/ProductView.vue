@@ -24,10 +24,10 @@
             R$ {{ product.price | money }}
           </div>
         </div>
-        <div class="col-6 mb-3">
+        <div v-if="product.category" class="col-6 mb-3">
           <span class="font-weight-bold mb-4">Categoria</span>
           <div class="w-100 border rounded p-2 text-uppercase">
-            {{ product.category }}
+            {{ product.category.name }}
           </div>
         </div>
         <div class="col-12 mb-4">

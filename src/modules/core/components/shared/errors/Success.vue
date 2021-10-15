@@ -14,7 +14,7 @@
 import { mapState, mapMutations } from 'vuex'
 
 export default {
-  name: 'message',
+  name: 'success',
   methods: {
     ...mapMutations(['hideFlash']),
   },

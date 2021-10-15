@@ -11,7 +11,8 @@
     </div>
 
     <div class="w-100 px-3 pt-1">
-      <Message class="pt-3" />
+      <Success class="pt-3" />
+      <Error class="pt-3" />
     </div>
 
     <div class="w-100 px-3 pt-3 pb-3">
@@ -43,9 +44,9 @@
         <tbody v-if="products.length">
           <tr v-for="(product, i) in products" :key="i">
             <th scope="row">{{ product.id }}</th>
-            <td>{{ product.name | uppercase }}</td>
+            <td class="text-uppercase">{{ product.name }}</td>
             <td>R$ {{ product.price | money }}</td>
-            <td>{{ product.category_id }}</td>
+            <td>{{ product.category.name }}</td>
             <td>{{ product.created_at | format }}</td>
             <td>
               <router-link :to="{ name: 'product-view', params: { id: product.id } }" class="btn-sm mr-1 btn btn-primary">
@@ -72,7 +73,8 @@
 // @ is an alias to /src
 import { fetchAll, destroy } from '@/modules/products/services/products.js'
 import moment from 'moment'
-import Message from '@/modules/core/components/shared/errors/Message'
+import Success from '@/modules/core/components/shared/errors/Success'
+import Error from '@/modules/core/components/shared/errors/Error'
 import { mapMutations } from 'vuex'
 
 export default {
@@ -81,7 +83,8 @@ export default {
     this.getProductList()
   },
   components: {
-    Message
+    Success,
+    Error
   },
   data() {
     return {
@@ -116,9 +119,6 @@ export default {
     },
     format(value) {
       return moment(value).format('DD/MM/Y')
-    },
-    uppercase(value) {
-      return value.toUpperCase();
     }
   }
 }

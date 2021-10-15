@@ -14,28 +14,34 @@
       <div class="form-group mb-4">
           <div class="row">
               <div class="col-6">
-                  <label class="font-weight-bold" for="validationServer03">
+                  <label class="font-weight-bold" for="name">
                       Nome <span class="text-danger font-weight-bold">*</span>
                   </label>
                   <input type="text" 
                     v-model.lazy="$v.form.name.$model"
-                    aria-describedby="validationServer03Feedback"
+                    aria-describedby="name"
                     class="form-control" 
-                    :class="{ 'is-invalid': $v.form.name.$error }"
+                    :class="{'is-invalid': $v.form.name.$error}"
                     @change="$v.form.name.$touch()"
                     placeholder="Nome"
-                    id="validationServer03">
+                    id="name">
 
-                <div v-if="!$v.form.name.required" id="validationServer03Feedback" class="invalid-feedback">
-                  O campo nome é obrigatório.
+                <div v-if="!$v.form.name.required" 
+                  id="name" 
+                  class="invalid-feedback">
+                    O campo nome é obrigatório.
                 </div>
 
-                <div v-if="!$v.form.name.minLength" id="validationServer03Feedback" class="invalid-feedback">
-                  O campo nome deve contar pelo menos 3 caracteres.
+                <div v-if="!$v.form.name.minLength" 
+                  id="validationServer03Feedback" 
+                  class="invalid-feedback">
+                    O campo nome deve contar pelo menos 3 caracteres.
                 </div>
 
-                <div v-if="!$v.form.name.maxLength" id="validationServer03Feedback" class="invalid-feedback">
-                  O campo nome deve contar pelo menos 255 caracteres.
+                <div v-if="!$v.form.name.maxLength" 
+                  id="validationServer03Feedback" 
+                  class="invalid-feedback">
+                    O campo nome deve contar pelo menos 255 caracteres.
                 </div>
               </div>
 
@@ -49,14 +55,14 @@
                   id="price" 
                   placeholder="Preço" 
                   type="text"
-                  :class="{ 'is-invalid': $v.form.price.$error }"
+                  :class="{ 'is-invalid': $v.form.price.$error && $v.form.price.$touch() }"
                   @change="$v.form.price.$touch()" />
 
                 <div v-if="!$v.form.price.required" id="validationServer03Feedback" class="invalid-feedback">
                   O campo preço é obrigatório.
                 </div>
 
-                <div v-if="!$v.form.price.between" id="validationServer03Feedback" class="invalid-feedback">
+                <div v-if="!$v.form.price.between && $v.form.price.$touch()" id="validationServer03Feedback" class="invalid-feedback">
                   O campo preço deve ter valor superior a 0,01.
                 </div>
               </div>
@@ -109,17 +115,14 @@
 import { required, minLength, maxLength, between } from 'vuelidate/lib/validators'
 import { save } from '@/modules/products/services/products.js'
 import { mapState, mapMutations } from 'vuex'
-import Money from 'v-money'
 
 export default {
   name: 'product-create',
-  components: {
-    Money
-  },
   data() {
     return {
       money: {
         decimal: '.',
+        thousands: '',
         precision: 2,
         masked: false
       },
@@ -152,16 +155,14 @@ export default {
   methods: {
     ...mapMutations(['showFlash']),
     async save() {
-      const formValid = !this.$v.$invalid
+      let formValid = !this.$v.$invalid
       if (formValid) {
         try {
           const data = Object.assign({}, this.$v.form.$model)
           await save(data)
 
         } catch (e) {
-          console.log(e)
-          this.showFlash('Erro ao salvar produto.')
-          return this.$router.push({name: 'product-list'})
+          this.showError('Erro ao salvar produto.')
         }
 
         this.showFlash('Produto salvo com sucesso.')

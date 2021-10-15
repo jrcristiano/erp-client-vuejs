@@ -20,8 +20,8 @@
     "portal-vue": "^2.1.7",
     "v-money": "^0.8.1",
     "vue": "^2.6.11",
-    "vue-currency-input": "^2.1.0",
     "vue-router": "^3.5.2",
+    "vue-select": "^3.13.2",
     "vuelidate": "^0.7.6",
     "vuex": "^3.6.2"
   },

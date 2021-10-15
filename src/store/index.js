@@ -8,6 +8,10 @@ export default new Vuex.Store({
     flash: {
       show: false,
       message: ''
+    },
+    error: {
+      show: false,
+      message: ''
     }
   },
   mutations: {
@@ -17,6 +21,13 @@ export default new Vuex.Store({
     },
     hideFlash(state) {
       state.flash.show = false
+    },
+    showError(state, payload) {
+      state.error.show = true
+      state.error.message = payload
+    },
+    hideError(state) {
+      state.error.show = false
     }
   },
   actions: {

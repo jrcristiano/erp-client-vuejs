@@ -19,12 +19,12 @@
                   </label>
                   <input type="text" 
                     v-model.lazy="$v.form.name.$model"
-                    aria-describedby="validationServer03Feedback"
+                    aria-describedby="name"
                     class="form-control" 
-                    :class="{ 'is-invalid': $v.form.name.$error }"
+                    :class="{'is-invalid': $v.form.name.$error}"
                     @change="$v.form.name.$touch()"
                     placeholder="Nome"
-                    id="validationServer03">
+                    id="name">
 
                 <div v-if="!$v.form.name.required" id="validationServer03Feedback" class="invalid-feedback">
                   O campo nome é obrigatório.
@@ -44,12 +44,12 @@
                     Preço <span class="text-danger font-weight-bold">*</span>
                 </label>
                 <input v-model.lazy="$v.form.price.$model"
+                  v-money="money"
                   class="form-control" 
                   id="price" 
                   placeholder="Preço" 
-                  type="number"
-                  step="0.01"
-                  :class="{ 'is-invalid': $v.form.price.$error }"
+                  type="text"
+                  :class="{ 'is-invalid': $v.form.price.$error && $v.form.price.$touch() }"
                   @change="$v.form.price.$touch()" />
 
                 <div v-if="!$v.form.price.required" id="validationServer03Feedback" class="invalid-feedback">
@@ -117,6 +117,12 @@ export default {
   },
   data() {
     return {
+      money: {
+        decimal: '.',
+        thousands: '',
+        precision: 2,
+        masked: false
+      },
       form: {}
     } 
   },
@@ -151,7 +157,7 @@ export default {
       if (formValid) {
         try {
           const data = Object.assign({}, this.$v.form.$model)
-          await save(data, this.$route.params.id)
+          console.log(await save(data, this.$route.params.id))
 
         } catch (e) {
           this.showFlash('Erro ao editar produto.')

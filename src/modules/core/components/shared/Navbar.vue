@@ -91,22 +91,22 @@ export default {
         registers: [
           {icon: 'fas fa-shopping-cart', class: 'border-top-cyan', route: 'product-list', title: 'Produtos'},
           {icon: 'fas fa-layer-group', class: 'border-top-cyan', route: 'category-list', title: 'Categorias'},
-          {icon: 'fas fa-user-tie', class: 'border-bottom-cyan border-top-cyan', route: 'clients', title: 'Clientes'},
-          {icon: 'fas fa-gift', class: 'border-bottom-cyan', route: 'providers', title: 'Fornecedores'},
-          {icon: 'fas fa-users-cog', class: 'border-bottom-cyan', route: 'managers', title: 'Gerentes'},
-          {icon: 'fas fa-university', class: 'border-bottom-cyan', route: 'banks', title: 'Bancos'}
+          {icon: 'fas fa-user-tie', class: 'border-bottom-cyan border-top-cyan', route: 'client-list', title: 'Clientes'},
+          {icon: 'fas fa-gift', class: 'border-bottom-cyan', route: 'provider-list', title: 'Fornecedores'},
+          {icon: 'fas fa-users-cog', class: 'border-bottom-cyan', route: 'manager-list', title: 'Gerentes'},
+          {icon: 'fas fa-university', class: 'border-bottom-cyan', route: 'bank-list', title: 'Bancos'}
         ],
         financial: [
-          {icon: 'fas fa-file-invoice-dollar', class: 'border-bottom-cyan border-top-cyan', route: 'bills', title: 'Contas a pagar'},
-          {icon: 'fas fa-piggy-bank', class: 'border-bottom-cyan', route: 'bills-receive', title: 'Contas a receber'},
-          {icon: 'fas fa-box-open', class: 'border-bottom-cyan', route: 'cash-flow', title: 'Fluxo de caixa'},
-          {icon: 'fas fa-exchange-alt', class: 'border-bottom-cyan', route: 'transfers', title: 'Transferências'},
+          {icon: 'fas fa-file-invoice-dollar', class: 'border-bottom-cyan border-top-cyan', route: 'bill-list', title: 'Contas a pagar'},
+          {icon: 'fas fa-piggy-bank', class: 'border-bottom-cyan', route: 'bills-receive-list', title: 'Contas a receber'},
+          {icon: 'fas fa-box-open', class: 'border-bottom-cyan', route: 'cash-flow-list', title: 'Fluxo de caixa'},
+          {icon: 'fas fa-exchange-alt', class: 'border-bottom-cyan', route: 'transfer-list', title: 'Transferências'},
         ],
         operacional: [
           {
             icon: 'fas fa-file-invoice-dollar', 
             class: 'border-bottom-cyan border-top-cyan', 
-            route: 'call-center', 
+            route: 'call-center-list', 
             title: 'Central de atendimento'
           }
         ]
