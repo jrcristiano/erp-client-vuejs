@@ -153,19 +153,19 @@ export default {
     ...mapState(['flash'])
   },
   methods: {
-    ...mapMutations(['showFlash']),
+    ...mapMutations(['showFlash', 'showError']),
     async save() {
       let formValid = !this.$v.$invalid
       if (formValid) {
         try {
           const data = Object.assign({}, this.$v.form.$model)
           await save(data)
+          this.showFlash('Produto salvo com sucesso.')
 
         } catch (e) {
           this.showError('Erro ao salvar produto.')
         }
 
-        this.showFlash('Produto salvo com sucesso.')
         return this.$router.push({name: 'product-list'})
       }
     }

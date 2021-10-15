@@ -30,7 +30,7 @@
               <router-link :to="{ name: 'category-edit', params: { id: category.id } }" class="btn btn-primary btn-sm">
                 <i class="fas fa-edit"></i>
               </router-link>
-              <button v-if="category.products.length == 0" @click="destroy(category.id)" class="btn btn-danger btn-sm ml-1">
+              <button v-if="!category.products.length" @click="destroy(category.id)" class="btn btn-danger btn-sm ml-1">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
@@ -63,16 +63,20 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['showFlash']),
+    ...mapMutations(['showFlash', 'showError']),
     async getCategoryList() {
       let res = await fetchAll()
       this.categories = [...res.data.data]
     },
     async destroy(id) {
       if (confirm('Deseja mesmo remover este dado?')) {
-        this.categories = this.categories.filter(category => category.id != id)
-        await destroy(id)
-        this.showFlash('A categoria foi removida com sucesso.')
+        try {
+          await destroy(id)
+          this.categories = this.categories.filter(category => category.id != id)
+          this.showFlash('A categoria foi removida com sucesso.')
+        } catch (e) {
+          this.showError('Erro ao remover categoria.')
+        }
       }
     }
   },

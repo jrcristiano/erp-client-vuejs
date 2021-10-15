@@ -93,19 +93,23 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['showFlash']),
+    ...mapMutations(['showFlash', 'showError']),
     async getProductList() {
       let res = await fetchAll()
       this.products = [...res.data.data]
     },
     async destroy(id) {
-      if (confirm('Deseja mesmo remover este dado?')) {
-        this.products = this.products.filter(product => {
-          return product.id != id
-        })
+      try {
+        if (confirm('Deseja mesmo remover este dado?')) {
+          await destroy(id)
+          this.products = this.products.filter(product => {
+            return product.id != id
+          })
 
-        this.showFlash('O produto foi removido com sucesso.')
-        await destroy(id)
+          this.showFlash('O produto foi removido com sucesso.')
+        }
+      } catch (e) {
+        this.showError('Erro ao remover produto.')
       }
     },
     filteredProducts() {

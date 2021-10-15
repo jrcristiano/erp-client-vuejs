@@ -145,7 +145,7 @@ export default {
     ...mapState(['flash'])
   },
   methods: {
-    ...mapMutations(['showFlash']),
+    ...mapMutations(['showFlash', 'showError']),
     async getProduct() {
       const id = this.$route.params.id
       const res = await findById(id)
@@ -158,13 +158,12 @@ export default {
         try {
           const data = Object.assign({}, this.$v.form.$model)
           console.log(await save(data, this.$route.params.id))
+          this.showFlash('Produto editado com sucesso.')
 
         } catch (e) {
-          this.showFlash('Erro ao editar produto.')
-          return this.$router.push({name: 'product-list'})
+          this.showError('Erro ao editar produto.')
         }
 
-        this.showFlash('Produto editado com sucesso.')
         return this.$router.push({name: 'product-list'})
       }
     },
