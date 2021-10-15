@@ -20,12 +20,12 @@
         <select name="categoria" 
           id="category" 
           class="form-control"
-          @change="filteredProducts"
+          @change="onChangeSelectCategory"
           v-model="selectedCategory">
             <option value="">SELECIONAR CATEGORIA</option>
-            <option value="1">ELETRÔNICOS</option>
-            <option value="2">ELETRODOMÉSTICOS</option>
-            <option value="3">OUTROS</option>
+            <option v-for="(category, i) in categories" :key="i" :value="category.id">
+              {{ category.name }}
+            </option>
         </select>
       </div>
     </div>
@@ -71,7 +71,8 @@
 
 <script>
 // @ is an alias to /src
-import { fetchAll, destroy } from '@/modules/products/services/products.js'
+import { fetchAll, destroy } from '@/modules/products/services/product.js'
+import { fetchAll as allCategories } from '@/modules/categories/services/category.js'
 import moment from 'moment'
 import Success from '@/modules/core/components/shared/errors/Success'
 import Error from '@/modules/core/components/shared/errors/Error'
@@ -80,7 +81,7 @@ import { mapMutations } from 'vuex'
 export default {
   name: 'product-list',
   created () {
-    this.getProductList()
+    this.init()
   },
   components: {
     Success,
@@ -89,14 +90,23 @@ export default {
   data() {
     return {
       products: [],
+      categories: [],
       selectedCategory: ''
     }
   },
   methods: {
     ...mapMutations(['showFlash', 'showError']),
+    init() {
+      this.getProductList()
+      this.getCategoryList()
+    },
     async getProductList() {
       let res = await fetchAll()
       this.products = [...res.data.data]
+    },
+    async getCategoryList() {
+      const res = await allCategories()
+      this.categories = [...res.data.data]
     },
     async destroy(id) {
       try {
@@ -112,8 +122,8 @@ export default {
         this.showError('Erro ao remover produto.')
       }
     },
-    filteredProducts() {
-      console.log('changed!')
+    onChangeSelectCategory(e) {
+      console.log(e.target.value)
     }
   },
   filters: {

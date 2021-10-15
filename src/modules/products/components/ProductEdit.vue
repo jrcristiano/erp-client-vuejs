@@ -107,7 +107,7 @@
 <script>
 
 import { required, minLength, maxLength, between } from 'vuelidate/lib/validators'
-import { save, findById } from '@/modules/products/services/products.js'
+import { save, findById } from '@/modules/products/services/product.js'
 import { mapState, mapMutations } from 'vuex'
 
 export default {

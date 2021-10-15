@@ -60,7 +60,7 @@
 
 <script>
 // @ is an alias to /src
-import { findById, destroy } from '@/modules/products/services/products.js'
+import { findById, destroy } from '@/modules/products/services/product.js'
 import moment from 'moment'
 import { mapMutations } from 'vuex'
 

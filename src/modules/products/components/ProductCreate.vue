@@ -79,9 +79,9 @@
             id="category_id"
             :class="{ 'is-invalid': $v.form.category_id.$error }">
             <option value="">SELECIONAR CATEGORIA DO PRODUTO</option>
-            <option value="1">ELETRÔNICOS</option>
-            <option value="2">ELETRODOMÉSTICOS</option>
-            <option value="3">OUTROS</option>
+            <option v-for="(category, i) in categories" :key="i" :value="category.id">
+              {{ category.name }}
+            </option>
           </select>
 
           <div v-if="$v.form.category_id.$error" id="validationServer03Feedback" class="invalid-feedback">
@@ -113,11 +113,15 @@
 <script>
 
 import { required, minLength, maxLength, between } from 'vuelidate/lib/validators'
-import { save } from '@/modules/products/services/products.js'
+import { save } from '@/modules/products/services/product.js'
+import { fetchAll as allCategories } from '@/modules/categories/services/category.js'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'product-create',
+  mounted() {
+    this.getCategories()
+  },
   data() {
     return {
       money: {
@@ -131,8 +135,9 @@ export default {
         price: '',
         description: '',
         category_id: ''
-      }
-    } 
+      },
+      categories: []
+    }
   },
   validations: {
     form: {
@@ -168,6 +173,10 @@ export default {
 
         return this.$router.push({name: 'product-list'})
       }
+    },
+    async getCategories() {
+      const res = await allCategories()
+      this.categories = [...res.data.data]
     }
   },
   filters: {
