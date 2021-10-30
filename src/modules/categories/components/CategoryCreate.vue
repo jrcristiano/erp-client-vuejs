@@ -34,10 +34,9 @@
               O campo nome deve conter no máximo 255 caracteres.  
             </div>
         </div>
-        
         <div class="form-group">
           <button type="submit" 
-            :disabled="$v.form.name.$invalid"
+            :disabled="$v.$invalid"
             class="btn btn-success font-weight-bold">
               <i class="fas fa-check"></i> Salvar
           </button>

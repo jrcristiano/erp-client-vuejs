@@ -53,14 +53,14 @@ export default {
   mounted() {
     this.getCategoryList()
   },
-  components: {
-    Success,
-    Error
-  },
   data() {
     return {
       categories: []
     }
+  },
+  components: {
+    Success,
+    Error
   },
   methods: {
     ...mapMutations(['showFlash', 'showError']),

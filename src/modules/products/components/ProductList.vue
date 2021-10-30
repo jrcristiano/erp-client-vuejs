@@ -83,16 +83,16 @@ export default {
   created () {
     this.init()
   },
-  components: {
-    Success,
-    Error
-  },
   data() {
     return {
       products: [],
       categories: [],
       selectedCategory: ''
     }
+  },
+  components: {
+    Success,
+    Error
   },
   methods: {
     ...mapMutations(['showFlash', 'showError']),

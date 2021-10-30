@@ -5,6 +5,7 @@ import CoreRoutes from './modules/core/core-router.js'
 import HomeRoutes from './modules/home/home-router.js'
 import ProductRoutes from './modules/products/product-router.js'
 import CategoryRoutes from './modules/categories/category-router.js'
+import ClientRoutes from './modules/clients/client-router.js'
 
 Vue.use(Router)
 
@@ -16,6 +17,7 @@ export default new Router({
     CoreRoutes,
     HomeRoutes,
     ProductRoutes,
-    CategoryRoutes
+    CategoryRoutes,
+    ClientRoutes,
   ]
 })

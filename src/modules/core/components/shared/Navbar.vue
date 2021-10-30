@@ -2,7 +2,7 @@
   <div id="navbar" class="bg-primary vh-100">
 
       <div class="w-100 d-flex justify-content-center p-4">
-        <img width="140" height="70" :src="Logo" alt="SoftGenese">
+        <img width="160" height="80" :src="Logo" alt="SoftGenese">
       </div>
 
       <div class="w-100 py-1 px-3">
@@ -35,7 +35,7 @@
         </li>
       </ul>
 
-      <ul class="nav flex-column mb-4">
+      <!-- <ul class="nav flex-column mb-4">
         <div class="w-100 py-1 px-3">
           <span class="text-white font-weight-bold">Financeiro</span>
         </div>
@@ -73,7 +73,7 @@
               <i class="fas fa-sign-out-alt ml-3"></i> Logout
             </router-link>
         </li>
-      </ul>
+      </ul>-->
   </div>
 </template>
 
@@ -82,9 +82,6 @@
 import Logo from '@/assets/light-logo.png'
 
 export default {
-  mounted() {
-  
-  },
   data() {
     return {
       nav: {
