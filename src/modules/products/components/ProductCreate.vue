@@ -77,7 +77,7 @@
             class="form-control" 
             name="category_id" 
             id="category_id"
-            :class="{ 'is-invalid': $v.form.category_id.$error }">
+            :class="{'is-invalid': $v.form.category_id.$error}">
             <option value="">SELECIONAR CATEGORIA DO PRODUTO</option>
             <option v-for="(category, i) in categories" :key="i" :value="category.id">
               {{ category.name }}
